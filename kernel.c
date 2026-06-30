@@ -1,23 +1,41 @@
+
+
+
 extern unsigned char inb(unsigned short port);
+
+const char keyboard_map[50] = {
+    [0x1E] = 'A',
+    [0x30] = 'B',
+    [0x2E] = 'C',
+    [0x20] = 'D',
+    [0X12] = 'E',
+
+};
+
+unsigned char last_key = 0;
 
 void kernel_print(const char*text, int line, int color);
 
 void kernel_clear();
 
+void kernel_digit_mode();
+
 void kernel_input_keyboard();
+
 
 void kernel_main(){
     kernel_clear();
     char * vga_color = (char*)0xB8000;
     kernel_print("WELCOME TO HOBERT OS", 1, 0x01);
-    kernel_print("PRESS A TO CONTINUE" , 2, 0X0A);
+    kernel_print("PRESS A TO DIGIT MODE" , 2, 0X0A);
     while (1)
     {
         unsigned char scancode = inb(0x60);
 
-        if (scancode == 0x1E)
+        if (scancode != last_key && scancode = 0x1E)
         {
-            kernel_print("KEY PRESSED", 3, 0X01);
+            kernel_clear();
+            kernel_digit_mode();
         }
         
     }
@@ -56,4 +74,10 @@ void kernel_clear(){
         
     }
     
+}
+
+void kernel_digit_mode(){
+    kernel_clear();
+    unsigned char scancode = inb(0x60);
+
 }
