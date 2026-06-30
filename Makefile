@@ -3,3 +3,7 @@ all:
 	gcc -m32 -c kernel_c/kernel.c -o kernel.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 	ld -m elf_i386 -T linker.ld -o kernel.bin boot.o kernel.o
 	qemu-system-i386 -kernel kernel.bin
+
+clean:
+	rm -f *.o
+	rm -f *.bin
