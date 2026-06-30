@@ -71,15 +71,12 @@ void kernel_main(){
                 kernel_credits();
                 kernel_show_menu();
             }
-
             last_key = scancode;
 
             if(scancode == 0){
                 last_key = 0;
             }
         }
-           
-        
     }
     
 }
@@ -257,10 +254,11 @@ int strcmp(const char *str1, const char *str2){ //PARA CHECKAR COMANDOS
         i++;
     }
 
-    if (str1[i])
+    if (str1[i] == str2[i])
     {
         return 1;
-    } else{
+    }
+    else{
         return 0;
     }
     
