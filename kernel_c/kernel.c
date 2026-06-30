@@ -9,7 +9,27 @@ const char keyboard_map[50] = {
     [0x2E] = 'C',
     [0x20] = 'D',
     [0X12] = 'E',
-
+    [0x21] = 'F',
+    [0x22] = 'G',
+    [0x23] = 'H',
+    [0x17] = 'I',
+    [0x24] = 'J',
+    [0x25] = 'K',
+    [0x26] = 'L',
+    [0x27] = 'M',
+    [0x31] = 'N',
+    [0x18] = 'O',
+    [0x19] = 'P',
+    [0x10] = 'Q',
+    [0x13] = 'R',
+    [0x1F] = 'S',
+    [0x14] = 'T',
+    [0x16] = 'U',
+    [0x2F] = 'V',
+    [0x11] = 'W',
+    [0x2D] = 'X',
+    [0x15] = 'Y',
+    [0x2C] = 'Z'
 };
 
 unsigned char last_key = 0;
@@ -24,6 +44,7 @@ void kernel_input_keyboard();
 
 
 void kernel_main(){
+    kernel_clear();
     char * vga_color = (char*)0xB8000;
     kernel_print("WELCOME TO HOBERT OS", 1, 0x01);
     kernel_print("PRESS A TO DIGIT MODE" , 2, 0X0A);
