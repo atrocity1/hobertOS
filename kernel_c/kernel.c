@@ -2,6 +2,9 @@
 char command_buffer[100];
 int command_len = 0;
 
+char folders[10][15]; // cria um espaço pra guardar as pasta
+int folder_count = 0; // contador so pra saber quantas pastas tem
+
 
 int position_byte = 480; //pula pra terceira linha onde vc quer digitar eh basicamente o byte onde quer escrever
 
@@ -135,13 +138,21 @@ void kernel_digit_mode(){
                 {
                     kernel_clear();
                 }
-                if (strcmp(command_buffer, "HELP") == 1)
+                else if (strcmp(command_buffer, "HELP") == 1)
                 {
                     kernel_print("SOON...", 2, 0x01);
                 }
-                
-                
-
+                else if (strcmp(command_buffer, "MKDIR") == 1){
+                    if (folder_count < 10)
+                    {
+                        int line = (position_byte / 160) + 1;
+                        kenrel_print("The folder has been created", line, 0x02);
+                    }
+                    else{
+                        int line = (position_byte / 160) + 1;
+                        kernel_print("Memory error to create folder", line, 0x02);
+                    }
+                }
                 command_len = 0;
                 position_byte = ((position_byte / 160) + 1) * 160;
                 
