@@ -122,7 +122,24 @@ void kernel_digit_mode(){
 
         if (scancode != 0 && scancode != last_key)
         {
-            if (scancode < 50 && keyboard_map[scancode])
+
+            if (scancode == 0x39)
+            {
+                position_byte += 2;
+            }
+            else if (scancode == 0x0E)
+            {
+                if (position_byte > 480)
+                {
+                    position_byte -= 2;
+                    vga_color[position_byte] = ' ';
+                    vga_color[position_byte + 1] = 0x07;
+                }
+                
+            }
+            
+            
+            if (scancode < 60 && keyboard_map[scancode])
             {
                 vga_color[position_byte] = keyboard_map[scancode];
                 vga_color[position_byte + 1] = 0x0A;
