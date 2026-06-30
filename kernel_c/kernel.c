@@ -1,5 +1,5 @@
 
-
+int position_byte = 480; //pula pra terceira linha onde vc quer digitar eh basicamente o byte onde quer escrever
 
 extern unsigned char inb(unsigned short port);
 
@@ -28,12 +28,11 @@ void kernel_main(){
     char * vga_color = (char*)0xB8000;
     kernel_print("WELCOME TO HOBERT OS", 1, 0x01);
     kernel_print("PRESS A TO DIGIT MODE" , 2, 0X0A);
-    int position_byte = 480; //pula pra terceira linha onde vc quer digitar eh basicamente o byte onde quer escrever
     while (1)
     {
         unsigned char scancode = inb(0x60);
 
-        if (scancode = 0x1E && scancode != 0)
+        if (scancode = 0x1E)
         {
             kernel_digit_mode();
         }
@@ -84,12 +83,24 @@ void kernel_digit_mode(){
         unsigned char scancode = inb(0x60);
 
 
-        if (scancode != 0)
+        if (scancode != 0 && scancode != last_key)
         {
-            if (keyboard_map[scancode] && scancode != 0)
+            if (scancode < 50 && keyboard_map[scancode])
             {
-                vga_color[0] = keyboard_map[scancode];
+                vga_color[position_byte] = keyboard_map[scancode];
+                vga_color[position_byte + 1] = 0x0A;
+
+                position_byte += 2; //So pra letra mudar de lugar e nao ficar mudando
+
             }
+
+            last_key = scancode;
+
+            if (scancode == 0) //SO PRA NAO FICAR MUDANDO A LETRA PRA NUMERO
+            {
+                last_key = 0;
+            }
+            
             
         }
         
