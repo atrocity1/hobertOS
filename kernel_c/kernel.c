@@ -42,20 +42,37 @@ void kernel_digit_mode();
 
 void kernel_input_keyboard();
 
+void kernel_credits();
+
+void kernel_show_menu();
+
 
 void kernel_main(){
     kernel_clear();
     char * vga_color = (char*)0xB8000;
-    kernel_print("WELCOME TO HOBERT OS", 1, 0x01);
-    kernel_print("PRESS A TO DIGIT MODE" , 2, 0X0A);
+    kernel_show_menu();
     while (1)
     {
         unsigned char scancode = inb(0x60);
-
-        if (scancode == 0x1E)
+        if (scancode != last_key && scancode != 0)
         {
-            kernel_digit_mode();
+            if (scancode == 0x1E)
+            {
+                kernel_digit_mode();
+            }
+            else if (scancode == 0x30)
+            {
+                kernel_credits();
+                kernel_show_menu();
+            }
+
+            last_key = scancode;
+
+            if(scancode == 0){
+                last_key = 0;
+            }
         }
+           
         
     }
     
@@ -116,15 +133,53 @@ void kernel_digit_mode(){
 
             last_key = scancode;
 
-            if (scancode == 0) //SO PRA NAO FICAR MUDANDO A LETRA PRA NUMERO
-            {
-                last_key = 0;
-            }
             
             
+        }
+
+        if (scancode == 0) //SO PRA NAO FICAR MUDANDO A LETRA PRA NUMERO
+        {
+            last_key = 0;
         }
         
     }
     
 
+}
+
+void kernel_credits(){
+    kernel_clear();
+    kernel_print("Coding: Hoberte, Assembly: Hoberte", 1, 0x01);
+    kernel_print("PRESS A TO BACK TO MENU", 2, 0x01);
+
+    while (1)
+    {
+        unsigned char scancode = inb(0x60);
+        if (scancode != last_key && scancode != 0)
+        {
+            if (scancode == 0x1E)
+            {
+                return;
+            }   
+            last_key = scancode;
+        }
+        if (scancode == 0)
+        {
+            last_key = 0;
+        }
+        
+        
+
+    }
+    
+
+    
+}
+
+void kernel_show_menu(){
+    kernel_clear();
+    kernel_print("WELCOME TO HOBERT OS", 1, 0x01);
+    kernel_print("MADED BY Hoberte", 2, 0X0A);
+    kernel_print("PRESS A TO DIGIT MODE" , 3, 0X0A);
+    kernel_print("PRESS B TO SEE CREDITS", 4, 0x0A);
 }
