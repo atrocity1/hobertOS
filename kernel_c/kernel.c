@@ -24,7 +24,6 @@ void kernel_input_keyboard();
 
 
 void kernel_main(){
-    kernel_clear();
     char * vga_color = (char*)0xB8000;
     kernel_print("WELCOME TO HOBERT OS", 1, 0x01);
     kernel_print("PRESS A TO DIGIT MODE" , 2, 0X0A);
@@ -32,7 +31,7 @@ void kernel_main(){
     {
         unsigned char scancode = inb(0x60);
 
-        if (scancode = 0x1E)
+        if (scancode == 0x1E)
         {
             kernel_digit_mode();
         }
