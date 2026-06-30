@@ -1,4 +1,8 @@
 
+char command_buffer[100];
+int command_len = 0;
+
+
 int position_byte = 480; //pula pra terceira linha onde vc quer digitar eh basicamente o byte onde quer escrever
 
 extern unsigned char inb(unsigned short port);
@@ -45,6 +49,8 @@ void kernel_input_keyboard();
 void kernel_credits();
 
 void kernel_show_menu();
+
+int strcmp(const char *str1, const char *str2);
 
 
 void kernel_main(){
@@ -123,13 +129,35 @@ void kernel_digit_mode(){
         if (scancode != 0 && scancode != last_key)
         {
 
+
             if (scancode == 0x1C)
             {
-                position_byte = ((position_byte / 160) + 1) * 160; //ISSO BASICAMENTE PULA PRA PROXIMA LINHA
+                command_buffer[command_len] = '\0';
+                
+                if (strcmp(command_buffer, "CLEAR") == 1)
+                {
+                    kernel_clear();
+                }
+                if (strcmp(command_buffer, "HELP") == 1)
+                {
+                    kernel_print("SOON...", 2, 0x01);
+                }
+                
+                
+
+                command_len = 0;
+                position_byte = ((position_byte / 160) + 1) * 160;
+                
+                
             }
-            if (scancode == 0x39)
+            else if (scancode == 0x39)
             {
-                position_byte += 2;
+                if(command_len < 99){
+                    command_buffer[command_len] = ' '; // PRA GUARDAR O ESPAÇO TAMBÉM!
+                    command_len++;
+                    position_byte += 2;
+                }
+                
             }
             else if (scancode == 0x0E)
             {
@@ -138,17 +166,29 @@ void kernel_digit_mode(){
                     position_byte -= 2;
                     vga_color[position_byte] = ' ';
                     vga_color[position_byte + 1] = 0x07;
+                    if (command_len)
+                    {
+                        command_len--;
+                    }
+                    
                 }
                 
             }
             
             
-            if (scancode < 60 && keyboard_map[scancode])
+            else if (scancode < 60 && keyboard_map[scancode])
             {
-                vga_color[position_byte] = keyboard_map[scancode];
-                vga_color[position_byte + 1] = 0x0A;
+                if (command_len < 99)
+                {
+                    command_buffer[command_len] = keyboard_map[scancode];
+                    command_len++;
+                    vga_color[position_byte] = keyboard_map[scancode];
+                    vga_color[position_byte + 1] = 0x0A;
 
-                position_byte += 2; //So pra letra mudar de lugar e nao ficar mudando
+                    position_byte += 2; //So pra letra mudar de lugar e nao ficar mudando
+                }
+                
+
 
             }
 
@@ -204,3 +244,26 @@ void kernel_show_menu(){
     kernel_print("PRESS A TO DIGIT MODE" , 3, 0X0A);
     kernel_print("PRESS B TO SEE CREDITS", 4, 0x0A);
 }
+
+int strcmp(const char *str1, const char *str2){ //PARA CHECKAR COMANDOS
+
+    int i = 0;
+    while (str1[i] != '\0' && str2[i] != '\0')
+    {
+        if (str1[i] != str2[i])
+        {
+            return 0;
+        }
+        i++;
+    }
+
+    if (str1[i])
+    {
+        return 1;
+    } else{
+        return 0;
+    }
+    
+    
+}
+
