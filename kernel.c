@@ -28,13 +28,13 @@ void kernel_main(){
     char * vga_color = (char*)0xB8000;
     kernel_print("WELCOME TO HOBERT OS", 1, 0x01);
     kernel_print("PRESS A TO DIGIT MODE" , 2, 0X0A);
+    int position_byte = 480; //pula pra terceira linha onde vc quer digitar eh basicamente o byte onde quer escrever
     while (1)
     {
         unsigned char scancode = inb(0x60);
 
-        if (scancode != last_key && scancode = 0x1E)
+        if (scancode = 0x1E && scancode != 0)
         {
-            kernel_clear();
             kernel_digit_mode();
         }
         
@@ -78,6 +78,22 @@ void kernel_clear(){
 
 void kernel_digit_mode(){
     kernel_clear();
-    unsigned char scancode = inb(0x60);
+    while (1)
+    {
+        char *vga_color = (char*)0xB8000;
+        unsigned char scancode = inb(0x60);
+
+
+        if (scancode != 0)
+        {
+            if (keyboard_map[scancode] && scancode != 0)
+            {
+                vga_color[0] = keyboard_map[scancode];
+            }
+            
+        }
+        
+    }
+    
 
 }
