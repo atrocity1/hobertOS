@@ -56,6 +56,7 @@ void kernel_show_menu();
 int strcmp(const char *str1, const char *str2);
 
 
+
 void kernel_main(){
     kernel_clear();
     char * vga_color = (char*)0xB8000;
@@ -133,20 +134,24 @@ void kernel_digit_mode(){
             if (scancode == 0x1C)
             {
                 command_buffer[command_len] = '\0';
+                int clear_screen;
                 
                 if (strcmp(command_buffer, "CLEAR") == 1)
                 {
                     kernel_clear();
+                    position_byte = 0;
+                    clear_screen = 1; 
                 }
                 else if (strcmp(command_buffer, "HELP") == 1)
                 {
-                    kernel_print("SOON...", 2, 0x01);
+
+                    kernel_print("SOON...", 2, vga_color[scancode]);
                 }
                 else if (strcmp(command_buffer, "MKDIR") == 1){
                     if (folder_count < 10)
                     {
                         int line = (position_byte / 160) + 1;
-                        kenrel_print("The folder has been created", line, 0x02);
+                        kernel_print("The folder has been created", line, 0x02);
                     }
                     else{
                         int line = (position_byte / 160) + 1;
@@ -154,9 +159,12 @@ void kernel_digit_mode(){
                     }
                 }
                 command_len = 0;
-                position_byte = ((position_byte / 160) + 1) * 160;
-                
-                
+                if (clear_screen)
+                {
+                    
+                    position_byte = ((position_byte / 160) + 1) * 160;    
+                } 
+
             }
             else if (scancode == 0x39)
             {
@@ -180,10 +188,7 @@ void kernel_digit_mode(){
                     }
                     
                 }
-                
             }
-            
-            
             else if (scancode < 60 && keyboard_map[scancode])
             {
                 if (command_len < 99)
@@ -195,25 +200,14 @@ void kernel_digit_mode(){
 
                     position_byte += 2; //So pra letra mudar de lugar e nao ficar mudando
                 }
-                
-
-
             }
-
-            last_key = scancode;
-
-            
-            
+            last_key = scancode;    
         }
-
         if (scancode == 0) //SO PRA NAO FICAR MUDANDO A LETRA PRA NUMERO
         {
             last_key = 0;
         }
-        
     }
-    
-
 }
 
 void kernel_credits(){
