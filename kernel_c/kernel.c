@@ -123,6 +123,10 @@ void kernel_digit_mode(){
         if (scancode != 0 && scancode != last_key)
         {
 
+            if (scancode == 0x1C)
+            {
+                position_byte = ((position_byte / 160) + 1) * 160; //ISSO BASICAMENTE PULA PRA PROXIMA LINHA
+            }
             if (scancode == 0x39)
             {
                 position_byte += 2;
