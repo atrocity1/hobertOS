@@ -2,7 +2,7 @@
 char command_buffer[100];
 int command_len = 0;
 char folders[10][15]; // cria um espaço pra guardar as pasta
-int folder_count = 0; // contador so pra saber quantas pastas tem
+unsigned int folder_count = 0; // contador so pra saber quantas pastas tem
 int position_byte = 480; //pula pra terceira linha onde vc quer digitar eh basicamente o byte onde quer escrever
 extern unsigned char inb(unsigned short port);
 const char keyboard_map[90] = {
@@ -119,8 +119,7 @@ void kernel_digit_mode(){
             if (scancode == 0x1C)
             {
                 command_buffer[command_len] = '\0';
-                int clear_screen;
-                
+                int clear_screen = 0;
                 if (strcmp(command_buffer, "CLEAR") == 1)
                 {
                     kernel_clear();
@@ -135,10 +134,8 @@ void kernel_digit_mode(){
                 else if (strcmp(command_buffer, "MKDIR") == 1){
                     if (folder_count < 10)
                     {
-                        int line = (position_byte / 160) + 1;
-                        kernel_print("The folder has been created", line, 0x02);
-                        strcpy(folders[folder_count], "Nova pasta");
-
+                        strcpy(folders[folder_count], "NOVA PASTAR");
+                        
                     }
                     else{
                         int line = (position_byte / 160) + 1;
@@ -146,10 +143,11 @@ void kernel_digit_mode(){
                     }
                 }
                 else if(strcmp(command_buffer, "LS") == 1){
-                    int line = ((position_byte / 160) + 1) * 160;
+                    int line = (position_byte / 160) + 1;
                     for (int i = 0; i < folder_count; i++)
                     {
                         kernel_print(folders[i], line, 0x07);
+                        line++;
                     }
                     
                 }
@@ -179,7 +177,7 @@ void kernel_digit_mode(){
                     {
                         command_len--;
                     }
-                    
+                      
                 }
             }
             else if (scancode < 60 && keyboard_map[scancode])
