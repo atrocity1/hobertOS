@@ -1,16 +1,11 @@
 
 char command_buffer[100];
 int command_len = 0;
-
 char folders[10][15]; // cria um espaço pra guardar as pasta
 int folder_count = 0; // contador so pra saber quantas pastas tem
-
-
 int position_byte = 480; //pula pra terceira linha onde vc quer digitar eh basicamente o byte onde quer escrever
-
 extern unsigned char inb(unsigned short port);
-
-const char keyboard_map[50] = {
+const char keyboard_map[90] = {
     [0x1E] = 'A',
     [0x30] = 'B',
     [0x2E] = 'C',
@@ -23,7 +18,7 @@ const char keyboard_map[50] = {
     [0x24] = 'J',
     [0x25] = 'K',
     [0x26] = 'L',
-    [0x27] = 'M',
+    [0x32] = 'M',
     [0x31] = 'N',
     [0x18] = 'O',
     [0x19] = 'P',
@@ -40,22 +35,14 @@ const char keyboard_map[50] = {
 };
 
 unsigned char last_key = 0;
-
 void kernel_print(const char*text, int line, int color);
-
 void kernel_clear();
-
 void kernel_digit_mode();
-
 void kernel_input_keyboard();
-
+void strcpy(char *destiny, const char *origem);
 void kernel_credits();
-
 void kernel_show_menu();
-
 int strcmp(const char *str1, const char *str2);
-
-
 
 void kernel_main(){
     kernel_clear();
@@ -129,8 +116,6 @@ void kernel_digit_mode(){
 
         if (scancode != 0 && scancode != last_key)
         {
-
-
             if (scancode == 0x1C)
             {
                 command_buffer[command_len] = '\0';
@@ -152,11 +137,21 @@ void kernel_digit_mode(){
                     {
                         int line = (position_byte / 160) + 1;
                         kernel_print("The folder has been created", line, 0x02);
+                        strcpy(folders[folder_count], "Nova pasta");
+
                     }
                     else{
                         int line = (position_byte / 160) + 1;
                         kernel_print("Memory error to create folder", line, 0x02);
                     }
+                }
+                else if(strcmp(command_buffer, "LS") == 1){
+                    int line = ((position_byte / 160) + 1) * 160;
+                    for (int i = 0; i < folder_count; i++)
+                    {
+                        kernel_print(folders[i], line, 0x07);
+                    }
+                    
                 }
                 command_len = 0;
                 if (clear_screen)
@@ -164,7 +159,6 @@ void kernel_digit_mode(){
                     
                     position_byte = ((position_byte / 160) + 1) * 160;    
                 } 
-
             }
             else if (scancode == 0x39)
             {
@@ -172,8 +166,7 @@ void kernel_digit_mode(){
                     command_buffer[command_len] = ' '; // PRA GUARDAR O ESPAÇO TAMBÉM!
                     command_len++;
                     position_byte += 2;
-                }
-                
+                } 
             }
             else if (scancode == 0x0E)
             {
@@ -267,6 +260,17 @@ int strcmp(const char *str1, const char *str2){ //PARA CHECKAR COMANDOS
         return 0;
     }
     
+    
+}
+
+void strcpy(char *destiny, const char *origem){
+    int i = 0;
+    while (origem[i != '\0'])
+    {
+        destiny[i] = origem[i];
+        i++;
+        destiny[i] = '\0';
+    }
     
 }
 
