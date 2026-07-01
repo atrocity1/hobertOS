@@ -43,6 +43,7 @@ void strcpy(char *destiny, const char *origem);
 void kernel_credits();
 void kernel_show_menu();
 int strcmp(const char *str1, const char *str2);
+extern void start_snake_game();
 
 void kernel_main(){
     kernel_clear();
@@ -135,12 +136,17 @@ void kernel_digit_mode(){
                     if (folder_count < 10)
                     {
                         strcpy(folders[folder_count], "NOVA PASTAR");
-                        
                     }
                     else{
                         int line = (position_byte / 160) + 1;
                         kernel_print("Memory error to create folder", line, 0x02);
                     }
+                }
+                else if(strcmp(command_buffer, "SNAKE") == 1){
+                    start_snake_game();
+                    kernel_clear();
+                    position_byte = 0;
+                    clear_screen = 1;
                 }
                 else if(strcmp(command_buffer, "LS") == 1){
                     int line = (position_byte / 160) + 1;
