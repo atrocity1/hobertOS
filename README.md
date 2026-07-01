@@ -6,6 +6,12 @@ Este é um projeto de desenvolvimento de baixo nível (**OSDev**) onde construí
 
 ## 👾 DETALHE!
 * A MAIORIA DAS COISAS ESTÃO NA BRANCH FEATURE/SHELL OU NA DEV!!
+* MEU CONTATO DO DISCORD: ahmia_2
+* Código: Fernando & Áquila
+* Tester: Áquila
+
+  
+---
 
 ## 🚀 Funcionalidades Atuais
 
