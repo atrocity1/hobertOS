@@ -13,17 +13,8 @@ Este é um projeto de desenvolvimento de baixo nível (**OSDev**) onde construí
   
 ---
 
-## 🚀 Funcionalidades Atuais
-
-* **Bootloader Customizado:** Código Assembly de 32 bits (`boot.asm`) que inicializa o processador.
-* **Kernel Shell:** Terminal interativo com buffer de comandos feito em C.
-* **Motor Gráfico na Força Bruta:** Escrita direta na memória de vídeo VGA (`0xB8000`) para renderizar caracteres e cores.
-* **Snake Game em C++:** Jogo completo estruturado com classes (`Snake` e `Food`), incluindo:
-  * Movimentação com física de arrasto do corpo.
-  * Sistema de leitura não-bloqueante do teclado (Porta `0x60`).
-  * Lógica de colisão em si mesma com Reset automático do estado.
-  * Geração pseudo-aleatória de comida via matemática pura de congruência linear.
-
+## WARN:
+OK EU ESTOU MUITO CANSADO EU NAO VOU CONTINUAR ESSE PROJETO, TALVEZ MAS PRA FRENTE IREI DAR CONTINUIDADE ESTOU MAIS PREOCUPADO EM C++, E SE EU FOR CONTINUAR ESSE PROJETO IREI FAZER UM REMAKE
 ---
 
 ## 🛠️ Tecnologias Utilizadas
