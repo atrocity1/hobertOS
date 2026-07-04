@@ -242,6 +242,7 @@ void kernel_show_menu(){
     kernel_print("MADED BY Hoberte", 2, 0X0A);
     kernel_print("PRESS A TO DIGIT MODE" , 3, 0X0A);
     kernel_print("PRESS B TO SEE CREDITS", 4, 0x0A);
+    kernel_print("Press C TO RESTART", 5, 0x0A);
 }
 
 int strcmp(const char *str1, const char *str2){ //PARA CHECKAR COMANDOS
@@ -276,5 +277,10 @@ void strcpy(char *destiny, const char *origem){
         destiny[i] = '\0';
     }
     
+}
+
+void Restart_Kernel(){
+    reboot(RB_AUTOBOOT);
+    return 0;
 }
 
