@@ -1,6 +1,6 @@
 # 🪐 Custom x86 Kernel & Snake Game in C++ (No Standard Libraries)
 
-Este é um projeto de desenvolvimento de baixo nível (**OSDev**) onde construí um mini Sistema Operacional x86 do zero. O projeto inclui um estágio de boot, um kernel com shell interativo (comandos como `HELP`, `CLEAR`, `MKDIR`) e um jogo da **Cobrinha (Snake)** escrito em **C++ Puro focado em Programação Orientada a Objetos (POO)**, rodando diretamente no metal da máquina virtual, sem nenhuma dependência ou biblioteca padrão (`glibc`).
+Este é um projeto de desenvolvimento de baixo nível (**OSDev**) onde construí um mini Sistema Operacional x86 do zero. O projeto inclui um estágio de boot, um kernel com shell interativo (comandos como `HELP`, `CLEAR`, `MKDIR`, `SNAKE` ) e um jogo da **Cobrinha (Snake)** escrito em **C++ Puro focado em Programação Orientada a Objetos (POO)**, rodando diretamente no metal da máquina virtual, sem nenhuma dependência ou biblioteca padrão (`glibc`).
 
 ---
 
